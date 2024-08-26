@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parameter Encoder</title>
+    <style>
+      body {
+          font-family: Arial, sans-serif;
+          max-width: 600px;
+          margin: 0 auto;
+          padding: 20px;
+          background-color: #f5f5f5;
+      }
+
+      .heading-container {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          background-color: #C10C16;
+          padding: 20px;
+          border-radius: 25px 25px 0 0;
+      }
+
+      .heading {
+          font-size: 24px;
+          font-weight: bold;
+          color: white;
+      }
+
+      .form-content {
+          background-color: white;
+          padding: 50px;
+          text-align: center;
+          border-radius: 0 0 25px 25px;
+          margin: 30px;
+          box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .form-row {
+          display: flex;
+          justify-content: flex-start;
+          align-items: center;
+          margin-bottom: 10px;
+      }
+
+      label {
+          width: 120px;
+          margin-right: 10px;
+          flex-shrink: 0;
+      }
+
+      input, select {
+          flex-grow: 1;
+          padding: 10px;
+          border-radius: 15px;
+          width: 400px;
+      }
+
+      .submit-button {
+          height: 50px;
+          width: 150px;
+          background-color: #C10C16;
+          color: white;
+          border: none;
+          border-radius: 15px;
+          cursor: pointer;
+          margin: 20px auto;
+          display: block;
+      }
+
+      .submit-button:hover {
+          background-color: #ead40fb4;
+          color: black;
+      }
+
+      .submit-button.clicked {
+          background-color: #ff0000;
+      }
+
+      #result {
+          margin-top: 20px;
+          word-break: break-all;
+          text-align: center;
+      }
+
+      .result-container {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          background-color: #f0f0f0;
+          border-radius: 5px;
+          padding: 10px;
+          margin-top: 20px;
+          position: relative;
+      }
+
+      .result-url {
+          margin: 0;
+          font-family: monospace;
+          word-break: break-all;
+          white-space: nowrap;
+          overflow-x: auto;
+      }
+
+      .copy-button {
+          background-color: #C10C16;
+          color: white;
+          border: none;
+          border-radius: 5px;
+          cursor: pointer;
+          padding: 5px 10px;
+          margin-left: 10px;
+      }
+
+      .copy-button:hover {
+          background-color: #ead40fb4;
+          color: black;
+      }
+
+      .toast {
+          visibility: hidden;
+          min-width: 200px;
+          margin-left: -100px;
+          background-color: #333;
+          color: #fff;
+          text-align: center;
+          border-radius: 2px;
+          padding: 16px;
+          position: fixed;
+          z-index: 1;
+          left: 50%;
+          bottom: 30px;
+          font-size: 17px;
+      }
+
+      .toast.show {
+          visibility: visible;
+          animation: fadein 0.5s, fadeout 0.5s 2.5s;
+      }
+
+      @keyframes fadein {
+          from {bottom: 0; opacity: 0;}
+          to {bottom: 30px; opacity: 1;}
+      }
+
+      @keyframes fadeout {
+          from {bottom: 30px; opacity: 1;}
+          to {bottom: 0; opacity: 0;}
+      }
+
+    </style>
+</head>
+<body>
+    <div class="heading-container">
+        <div class="heading">Parameter Encoder</div>
+    </div>
+
+    <div class="form-content">
+        <form id="encoderForm">
+            <div class="form-row">
+                <label for="ticket_id">Ticket ID:</label>
+                <input type="text" id="ticket_id" value="LG-" required>
+            </div>
+            <div class="form-row">
+                <label for="setup_type">Setup Type:</label>
+                <select id="setup_type">
+                    <option value="a">Auto</option>
+                    <option value="m">Manual</option>
+                </select>
+            </div>
+            <div class="form-row">
+                <label for="device_type">Device Type:</label>
+                <select id="device_type">
+                    <option value="stb">Set-Top Box</option>
+                    <option value="bluray">Blu-ray</option>
+                    <option value="soundbar">Sound Bar</option>
+                    <option value="hometheatre">Home Theatre</option>
+                    <option value="ott">OTT</option>
+                </select>
+            </div>
+            <div class="form-row">
+                <label for="device_brand">Device Brand:</label>
+                <input type="text" id="device_brand" required>
+            </div>
+            <div class="form-row">
+                <label for="input_type">Input Type:</label>
+                <select id="input_type">
+                    <option value="hdmi">HDMI</option>
+                    <option value="optical">Optical</option>
+                </select>
+            </div>
+            <div class="form-row">
+                <label for="key_val1">Key Value 1:</label>
+                <select id="key_val1">
+                    <option value="">None</option>
+                    <option value="CH+">CH+</option>
+                    <option value="CH-">CH-</option>
+                    <option value="Menu">Menu</option>
+                    <option value="Vol+">Vol+</option>
+                    <option value="Vol-">Vol-</option>
+                    <option value="Mute">Mute</option>
+                    <option value="Display">Display</option>
+                    <option value="Info">Info</option>
+                    <option value="custom">Custom</option>
+                </select>
+                <input type="text" id="custom_key_val1" style="display: none;">
+            </div>
+            <div class="form-row">
+                <label for="key_val2">Key Value 2:</label>
+                <select id="key_val2">
+                    <option value="">None</option>
+                    <option value="CH+">CH+</option>
+                    <option value="CH-">CH-</option>
+                    <option value="Menu">Menu</option>
+                    <option value="Vol+">Vol+</option>
+                    <option value="Vol-">Vol-</option>
+                    <option value="Mute">Mute</option>
+                    <option value="Display">Display</option>
+                    <option value="Info">Info</option>
+                    <option value="custom">Custom</option>
+                </select>
+                <input type="text" id="custom_key_val2" style="display: none;">
+            </div>
+            <div class="form-row">
+                <label for="key_val3">Key Value 3:</label>
+                <select id="key_val3">
+                    <option value="">None</option>
+                    <option value="CH+">CH+</option>
+                    <option value="CH-">CH-</option>
+                    <option value="Menu">Menu</option>
+                    <option value="Vol+">Vol+</option>
+                    <option value="Vol-">Vol-</option>
+                    <option value="Mute">Mute</option>
+                    <option value="Display">Display</option>
+                    <option value="Info">Info</option>
+                    <option value="custom">Custom</option>
+                </select>
+                <input type="text" id="custom_key_val3" style="display: none;">
+            </div>
+
+            <button type="submit" class="submit-button">Encode</button>
+        </form>
+    </div>
+
+    <div id="result"></div>
+    <div id="toast" class="toast">URL copied</div>
+
+    <script>
+        const setupTypeSelect = document.getElementById('setup_type');
+        const inputTypeSelect = document.getElementById('input_type');
+        const keyVal1Select = document.getElementById('key_val1');
+        const keyVal2Select = document.getElementById('key_val2');
+        const keyVal3Select = document.getElementById('key_val3');
+        const customKeyVal1 = document.getElementById('custom_key_val1');
+        const customKeyVal2 = document.getElementById('custom_key_val2');
+        const customKeyVal3 = document.getElementById('custom_key_val3');
+        const errorMessageDiv = document.createElement('div');
+        errorMessageDiv.style.color = 'red';
+        document.getElementById('encoderForm').appendChild(errorMessageDiv);
+
+        function updateFormState() {
+            const isManual = setupTypeSelect.value === 'm';
+            inputTypeSelect.disabled = !isManual;
+            keyVal1Select.disabled = !isManual;
+            keyVal2Select.disabled = !isManual || keyVal1Select.value === "";
+            keyVal3Select.disabled = !isManual || keyVal2Select.value === "";
+
+            customKeyVal1.style.display = isManual && keyVal1Select.value === 'custom' ? 'block' : 'none';
+            customKeyVal2.style.display = isManual && keyVal2Select.value === 'custom' ? 'block' : 'none';
+            customKeyVal3.style.display = isManual && keyVal3Select.value === 'custom' ? 'block' : 'none';
+
+            customKeyVal1.disabled = !isManual || keyVal1Select.value !== 'custom';
+            customKeyVal2.disabled = !isManual || keyVal2Select.value !== 'custom';
+            customKeyVal3.disabled = !isManual || keyVal3Select.value !== 'custom';
+
+            errorMessageDiv.textContent = '';
+        }
+
+        function showErrorMessage(message) {
+            errorMessageDiv.textContent = message;
+        }
+
+        // Initial state setup
+        updateFormState();
+
+        // Update form state when setup type changes
+        setupTypeSelect.addEventListener('change', updateFormState);
+
+        function addKeyValueListener(select, customInput, previousSelect) {
+            select.addEventListener('change', function() {
+                if (previousSelect && previousSelect.value === "") {
+                    showErrorMessage(`Select Test key ${previousSelect.id.slice(-1)} first.`);
+                    this.value = "";
+                } else {
+                    updateFormState();
+                }
+            });
+        }
+
+        addKeyValueListener(keyVal1Select, customKeyVal1);
+        addKeyValueListener(keyVal2Select, customKeyVal2, keyVal1Select);
+        addKeyValueListener(keyVal3Select, customKeyVal3, keyVal2Select);
+
+        document.getElementById('encoderForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const ticket_id = document.getElementById('ticket_id').value.toLowerCase();
+            const setup_type = setupTypeSelect.value;
+            const device_type = document.getElementById('device_type').value.toLowerCase();
+            const device_brand = document.getElementById('device_brand').value.toLowerCase().replace(/ /g, '_');
+
+            let params = `s=${setup_type}&t=${device_type}&b=${device_brand}`;
+
+            if (setup_type === 'm') {
+                const input_type = inputTypeSelect.value;
+                params += `&i=${input_type}`;
+
+                function getKeyValue(select, customInput) {
+                    return select.value === 'custom' ? customInput.value : select.value;
+                }
+
+                const key1 = getKeyValue(keyVal1Select, customKeyVal1);
+                const key2 = getKeyValue(keyVal2Select, customKeyVal2);
+                const key3 = getKeyValue(keyVal3Select, customKeyVal3);
+
+                if (key1) params += `&k1=${encodeURIComponent(key1.toLowerCase())}`;
+                if (key2) params += `&k2=${encodeURIComponent(key2.toLowerCase())}`;
+                if (key3) params += `&k3=${encodeURIComponent(key3.toLowerCase())}`;
+            }
+
+            const encodedParams = btoa(params);
+            const fullUrlWithParams = `https://virtualagent.nevo.ai/feedback/solution/${ticket_id}?${params}`;
+            const fullUrlWithEncodedParams = `https://virtualagent.nevo.ai/feedback/solution/${ticket_id}?${encodedParams}`;
+
+            document.getElementById('result').innerHTML = `
+                <h2>Results:</h2>
+                <div class="result-container">
+                    <p class="result-url" id="generatedUrl">${fullUrlWithEncodedParams}</p>
+                    <button class="copy-button" onclick="copyToClipboard()">Copy URL</button>
+                </div>
+            `;
+        });
+
+        function copyToClipboard() {
+            const urlText = document.getElementById('generatedUrl').innerText;
+            const tempInput = document.createElement('input');
+            document.body.appendChild(tempInput);
+            tempInput.value = urlText;
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+
+            const toast = document.getElementById("toast");
+            toast.className = "toast show";
+            setTimeout(function(){ toast.className = toast.className.replace("show", ""); }, 3000);
+        }
+    </script>
+</body>
+</html>

@@ -5,246 +5,191 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Parameter Encoder</title>
     <style>
-      body {
-          font-family: Arial, sans-serif;
-          max-width: 600px;
-          margin: 0 auto;
-          padding: 20px;
-          background-color: #f5f5f5;
-      }
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+            color: #333;
+        }
 
-      .heading-container {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          background-color: #C10C16;
-          padding: 20px;
-          border-radius: 25px 25px 0 0;
-      }
+        h1 {
+            text-align: center;
+            color: #C10C16;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
 
-      .heading {
-          font-size: 24px;
-          font-weight: bold;
-          color: white;
-      }
+        .form-row {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            margin-bottom: 15px;
+        }
 
-      .form-content {
-          background-color: white;
-          padding: 50px;
-          text-align: center;
-          border-radius: 0 0 25px 25px;
-          margin: 30px;
-          box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-      }
+        label {
+            width: 130px;
+            margin-right: 10px;
+            font-weight: bold;
+            color: #555;
+        }
 
-      .form-row {
-          display: flex;
-          justify-content: flex-start;
-          align-items: center;
-          margin-bottom: 10px;
-      }
+        input, select {
+            flex-grow: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            background-color: #fff;
+            transition: border-color 0.3s ease;
+        }
 
-      label {
-          width: 120px;
-          margin-right: 10px;
-          flex-shrink: 0;
-      }
+        input:focus, select:focus {
+            border-color: #C10C16;
+            outline: none;
+        }
 
-      input, select {
-          flex-grow: 1;
-          padding: 10px;
-          border-radius: 15px;
-          width: 400px;
-      }
+        button {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            background-color: #C10C16;
+            color: #fff;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
 
-      .submit-button {
-          height: 50px;
-          width: 150px;
-          background-color: #C10C16;
-          color: white;
-          border: none;
-          border-radius: 15px;
-          cursor: pointer;
-          margin: 20px auto;
-          display: block;
-      }
+        button:hover {
+            background-color: #a10c14;
+        }
 
-      .submit-button:hover {
-          background-color: #ead40fb4;
-          color: black;
-      }
+        #result {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #272822;
+            color: #f8f8f2;
+            border-radius: 5px;
+            font-family: 'Courier New', Courier, monospace;
+            overflow-x: auto;
+        }
 
-      .submit-button.clicked {
-          background-color: #ff0000;
-      }
+        .copy-button {
+            margin-top: 10px;
+            background-color: #C10C16;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 8px 12px;
+            cursor: pointer;
+            font-size: 14px;
+            display: inline-block;
+            transition: background-color 0.3s ease;
+        }
 
-      #result {
-          margin-top: 20px;
-          word-break: break-all;
-          text-align: center;
-      }
-
-      .result-container {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          background-color: #f0f0f0;
-          border-radius: 5px;
-          padding: 10px;
-          margin-top: 20px;
-          position: relative;
-      }
-
-      .result-url {
-          margin: 0;
-          font-family: monospace;
-          word-break: break-all;
-          white-space: nowrap;
-          overflow-x: auto;
-      }
-
-      .copy-button {
-          background-color: #C10C16;
-          color: white;
-          border: none;
-          border-radius: 5px;
-          cursor: pointer;
-          padding: 5px 10px;
-          margin-left: 10px;
-      }
-
-      .copy-button:hover {
-          background-color: #ead40fb4;
-          color: black;
-      }
-
-      .toast {
-          visibility: hidden;
-          min-width: 200px;
-          margin-left: -100px;
-          background-color: #333;
-          color: #fff;
-          text-align: center;
-          border-radius: 2px;
-          padding: 16px;
-          position: fixed;
-          z-index: 1;
-          left: 50%;
-          bottom: 30px;
-          font-size: 17px;
-      }
-
-      .toast.show {
-          visibility: visible;
-          animation: fadein 0.5s, fadeout 0.5s 2.5s;
-      }
-
-      @keyframes fadein {
-          from {bottom: 0; opacity: 0;}
-          to {bottom: 30px; opacity: 1;}
-      }
-
-      @keyframes fadeout {
-          from {bottom: 30px; opacity: 1;}
-          to {bottom: 0; opacity: 0;}
-      }
-
+        .copy-button:hover {
+            background-color: #a10c14;
+        }
     </style>
 </head>
 <body>
-    <div class="heading-container">
-        <div class="heading">Parameter Encoder</div>
-    </div>
+    <h1>Parameter Encoder</h1>
 
-    <div class="form-content">
-        <form id="encoderForm">
-            <div class="form-row">
-                <label for="ticket_id">Ticket ID:</label>
-                <input type="text" id="ticket_id" value="LG-" required>
-            </div>
-            <div class="form-row">
-                <label for="setup_type">Setup Type:</label>
-                <select id="setup_type">
-                    <option value="a">Auto</option>
-                    <option value="m">Manual</option>
-                </select>
-            </div>
-            <div class="form-row">
-                <label for="device_type">Device Type:</label>
-                <select id="device_type">
-                    <option value="stb">Set-Top Box</option>
-                    <option value="bluray">Blu-ray</option>
-                    <option value="soundbar">Sound Bar</option>
-                    <option value="hometheatre">Home Theatre</option>
-                    <option value="ott">OTT</option>
-                </select>
-            </div>
-            <div class="form-row">
-                <label for="device_brand">Device Brand:</label>
-                <input type="text" id="device_brand" required>
-            </div>
-            <div class="form-row">
-                <label for="input_type">Input Type:</label>
-                <select id="input_type">
-                    <option value="hdmi">HDMI</option>
-                    <option value="optical">Optical</option>
-                </select>
-            </div>
-            <div class="form-row">
-                <label for="key_val1">Key Value 1:</label>
-                <select id="key_val1">
-                    <option value="">None</option>
-                    <option value="CH+">CH+</option>
-                    <option value="CH-">CH-</option>
-                    <option value="Menu">Menu</option>
-                    <option value="Vol+">Vol+</option>
-                    <option value="Vol-">Vol-</option>
-                    <option value="Mute">Mute</option>
-                    <option value="Display">Display</option>
-                    <option value="Info">Info</option>
-                    <option value="custom">Custom</option>
-                </select>
-                <input type="text" id="custom_key_val1" style="display: none;">
-            </div>
-            <div class="form-row">
-                <label for="key_val2">Key Value 2:</label>
-                <select id="key_val2">
-                    <option value="">None</option>
-                    <option value="CH+">CH+</option>
-                    <option value="CH-">CH-</option>
-                    <option value="Menu">Menu</option>
-                    <option value="Vol+">Vol+</option>
-                    <option value="Vol-">Vol-</option>
-                    <option value="Mute">Mute</option>
-                    <option value="Display">Display</option>
-                    <option value="Info">Info</option>
-                    <option value="custom">Custom</option>
-                </select>
-                <input type="text" id="custom_key_val2" style="display: none;">
-            </div>
-            <div class="form-row">
-                <label for="key_val3">Key Value 3:</label>
-                <select id="key_val3">
-                    <option value="">None</option>
-                    <option value="CH+">CH+</option>
-                    <option value="CH-">CH-</option>
-                    <option value="Menu">Menu</option>
-                    <option value="Vol+">Vol+</option>
-                    <option value="Vol-">Vol-</option>
-                    <option value="Mute">Mute</option>
-                    <option value="Display">Display</option>
-                    <option value="Info">Info</option>
-                    <option value="custom">Custom</option>
-                </select>
-                <input type="text" id="custom_key_val3" style="display: none;">
-            </div>
+    <form id="encoderForm">
+        <div class="form-row">
+            <label for="ticket_id">Ticket ID:</label>
+            <input type="text" id="ticket_id" value="LG-" required>
+        </div>
 
-            <button type="submit" class="submit-button">Encode</button>
-        </form>
-    </div>
+        <div class="form-row">
+            <label for="setup_type">Setup Type:</label>
+            <select id="setup_type">
+                <option value="Auto">Auto</option>
+                <option value="Manual">Manual</option>
+            </select>
+        </div>
+
+        <div class="form-row">
+            <label for="device_type">Device Type:</label>
+            <select id="device_type">
+                <option value="Set-Top Box">Set-Top Box</option>
+                <option value="Blu-ray">Blu-ray</option>
+                <option value="Sound Bar">Sound Bar</option>
+                <option value="Home Theatre">Home Theatre</option>
+                <option value="OTT">OTT</option>
+            </select>
+        </div>
+
+        <div class="form-row">
+            <label for="device_brand">Device Brand:</label>
+            <input type="text" id="device_brand" required>
+        </div>
+
+        <div class="form-row">
+            <label for="input_type">Input Type:</label>
+            <select id="input_type">
+                <option value="HDMI">HDMI</option>
+                <option value="Optical">Optical</option>
+            </select>
+        </div>
+
+        <div class="form-row">
+            <label for="key_val1">Key Value 1:</label>
+            <select id="key_val1">
+                <option value="">None</option>
+                <option value="CH+">CH+</option>
+                <option value="CH-">CH-</option>
+                <option value="Menu">Menu</option>
+                <option value="Vol+">Vol+</option>
+                <option value="Vol-">Vol-</option>
+                <option value="Mute">Mute</option>
+                <option value="Display">Display</option>
+                <option value="Info">Info</option>
+                <option value="custom">Custom</option>
+            </select>
+            <input type="text" id="custom_key_val1" style="display: none;">
+        </div>
+
+        <div class="form-row">
+            <label for="key_val2">Key Value 2:</label>
+            <select id="key_val2">
+                <option value="">None</option>
+                <option value="CH+">CH+</option>
+                <option value="CH-">CH-</option>
+                <option value="Menu">Menu</option>
+                <option value="Vol+">Vol+</option>
+                <option value="Vol-">Vol-</option>
+                <option value="Mute">Mute</option>
+                <option value="Display">Display</option>
+                <option value="Info">Info</option>
+                <option value="custom">Custom</option>
+            </select>
+            <input type="text" id="custom_key_val2" style="display: none;">
+        </div>
+
+        <div class="form-row">
+            <label for="key_val3">Key Value 3:</label>
+            <select id="key_val3">
+                <option value="">None</option>
+                <option value="CH+">CH+</option>
+                <option value="CH-">CH-</option>
+                <option value="Menu">Menu</option>
+                <option value="Vol+">Vol+</option>
+                <option value="Vol-">Vol-</option>
+                <option value="Mute">Mute</option>
+                <option value="Display">Display</option>
+                <option value="Info">Info</option>
+                <option value="custom">Custom</option>
+            </select>
+            <input type="text" id="custom_key_val3" style="display: none;">
+        </div>
+
+        <button type="submit">Generate Encoded URL</button>
+    </form>
 
     <div id="result"></div>
-    <div id="toast" class="toast">URL copied</div>
 
     <script>
         const setupTypeSelect = document.getElementById('setup_type');
@@ -260,7 +205,7 @@
         document.getElementById('encoderForm').appendChild(errorMessageDiv);
 
         function updateFormState() {
-            const isManual = setupTypeSelect.value === 'm';
+            const isManual = setupTypeSelect.value === 'Manual';
             inputTypeSelect.disabled = !isManual;
             keyVal1Select.disabled = !isManual;
             keyVal2Select.disabled = !isManual || keyVal1Select.value === "";
@@ -305,17 +250,24 @@
         document.getElementById('encoderForm').addEventListener('submit', function(e) {
             e.preventDefault();
 
-            const ticket_id = document.getElementById('ticket_id').value.toLowerCase();
+            const ticket_id = document.getElementById('ticket_id').value;
             const setup_type = setupTypeSelect.value;
-            const device_type = document.getElementById('device_type').value.toLowerCase();
-            const device_brand = document.getElementById('device_brand').value.toLowerCase().replace(/ /g, '_');
+            const device_type = document.getElementById('device_type').value;
+            const device_brand = document.getElementById('device_brand').value;
 
-            let params = `s=${setup_type}&t=${device_type}&b=${device_brand}`;
+            // Start constructing the result object
+            let resultObject = {
+                Ticket: ticket_id,
+                SetupType: setup_type,
+                DeviceType: device_type,
+                Brand: device_brand
+            };
 
-            if (setup_type === 'm') {
+            // Add InputType and Keys only if SetupType is Manual
+            if (setup_type === 'Manual') {
                 const input_type = inputTypeSelect.value;
-                params += `&i=${input_type}`;
 
+                let keys = [];
                 function getKeyValue(select, customInput) {
                     return select.value === 'custom' ? customInput.value : select.value;
                 }
@@ -324,37 +276,62 @@
                 const key2 = getKeyValue(keyVal2Select, customKeyVal2);
                 const key3 = getKeyValue(keyVal3Select, customKeyVal3);
 
-                if (key1) params += `&k1=${encodeURIComponent(key1.toLowerCase())}`;
-                if (key2) params += `&k2=${encodeURIComponent(key2.toLowerCase())}`;
-                if (key3) params += `&k3=${encodeURIComponent(key3.toLowerCase())}`;
+                if (key1) keys.push(key1);
+                if (key2) keys.push(key2);
+                if (key3) keys.push(key3);
+
+                resultObject.InputType = input_type;
+                resultObject.Keys = keys;
             }
 
-            const encodedParams = btoa(params);
-            const fullUrlWithParams = `https://virtualagent.nevo.ai/feedback/solution/${ticket_id}?${params}`;
-            const fullUrlWithEncodedParams = `https://virtualagent.nevo.ai/feedback/solution/${ticket_id}?${encodedParams}`;
+            // JSON object as a string
+            const resultJSON = JSON.stringify(resultObject);
+
+            // Base64 encode the JSON string
+            const base64EncodedJSON = btoa(resultJSON);
+
+            // Generate the final URL with Base64 encoded string
+            const finalURL = `https://virtualagent-uat.nevo.ai/feedback/solution/${base64EncodedJSON}`;
 
             document.getElementById('result').innerHTML = `
                 <h2>Results:</h2>
-                <div class="result-container">
-                    <p class="result-url" id="generatedUrl">${fullUrlWithEncodedParams}</p>
-                    <button class="copy-button" onclick="copyToClipboard()">Copy URL</button>
-                </div>
+                <div><strong>JSON Object:</strong></div>
+                <pre><code id="jsonResult">${resultJSON}</code></pre>
+                <div><strong>Base64 Encoded JSON:</strong></div>
+                <pre><code>${base64EncodedJSON}</code></pre>
+                <button class="copy-button" onclick="copyToClipboard('${finalURL}')">Copy URL</button>
             `;
         });
 
-        function copyToClipboard() {
-            const urlText = document.getElementById('generatedUrl').innerText;
-            const tempInput = document.createElement('input');
+        function copyToClipboard(url) {
+            const tempInput = document.createElement('textarea');
+            tempInput.value = url;
             document.body.appendChild(tempInput);
-            tempInput.value = urlText;
             tempInput.select();
             document.execCommand('copy');
             document.body.removeChild(tempInput);
 
-            const toast = document.getElementById("toast");
-            toast.className = "toast show";
-            setTimeout(function(){ toast.className = toast.className.replace("show", ""); }, 3000);
+            // Create the message element
+            const messageDiv = document.createElement('div');
+            messageDiv.textContent = 'URL copied';
+            messageDiv.style.position = 'fixed';
+            messageDiv.style.bottom = '20px';
+            messageDiv.style.left = '50%';
+            messageDiv.style.transform = 'translateX(-50%)';
+            messageDiv.style.backgroundColor = '#676767';
+            messageDiv.style.color = '#fff';
+            messageDiv.style.padding = '10px 20px';
+            messageDiv.style.borderRadius = '5px';
+            messageDiv.style.fontSize = '16px';
+            messageDiv.style.zIndex = '1000';
+            document.body.appendChild(messageDiv);
+
+            // Remove the message after 5 seconds
+            setTimeout(() => {
+                document.body.removeChild(messageDiv);
+            }, 3500);
         }
+
     </script>
 </body>
 </html>

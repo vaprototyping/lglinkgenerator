@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -35,7 +36,8 @@
             color: #555;
         }
 
-        input, select {
+        input,
+        select {
             flex-grow: 1;
             padding: 10px;
             border: 1px solid #ccc;
@@ -45,7 +47,8 @@
             transition: border-color 0.3s ease;
         }
 
-        input:focus, select:focus {
+        input:focus,
+        select:focus {
             border-color: #C10C16;
             outline: none;
         }
@@ -94,10 +97,27 @@
         }
     </style>
 </head>
+
 <body>
     <h1>Parameter Encoder</h1>
 
     <form id="encoderForm">
+        <div class="form-row">
+            <label for="env_select">Environment:</label>
+            <select id="env_select">
+                <option value="https://virtualagent-uat.nevo.ai/feedback/solution/">Staging</option>
+                <option value="https://virtualagent.nevo.ai/feedback/solution/">Production</option>
+            </select>
+        </div>
+
+        <div class="form-row">
+            <label for="language">Language:</label>
+            <select id="language">
+                <option value="en">English</option>
+                <option value="kr">Korean</option>
+            </select>
+        </div>
+
         <div class="form-row">
             <label for="ticket_id">Ticket ID:</label>
             <input type="text" id="ticket_id" value="LG-" required>
@@ -114,11 +134,11 @@
         <div class="form-row">
             <label for="device_type">Device Type:</label>
             <select id="device_type">
-                <option value="Set-Top Box">Set-Top Box</option>
-                <option value="Blu-ray">Blu-ray</option>
-                <option value="Sound Bar">Sound Bar</option>
-                <option value="Home Theatre">Home Theatre</option>
-                <option value="OTT">OTT</option>
+                <option value="Set-Top Box|셋톱박스">Set-Top Box</option>
+                <option value="Blu-ray/DVD Player|블루레이/DVD 플레이어">Blu-ray/DVD Player</option>
+                <option value="Home Theater|홈시어터">Home Theater</option>
+                <option value="Sound Bar|사운드바">Sound Bar</option>
+                <option value="OTT|OTT">OTT</option>
             </select>
         </div>
 
@@ -127,7 +147,7 @@
             <input type="text" id="device_brand" required>
         </div>
 
-        <div class="form-row">
+        <div class="form-row" id="input_type_row">
             <label for="input_type">Input Type:</label>
             <select id="input_type">
                 <option value="HDMI">HDMI</option>
@@ -135,7 +155,7 @@
             </select>
         </div>
 
-        <div class="form-row">
+        <div class="form-row" id="key_values_row">
             <label for="key_val1">Key Value 1:</label>
             <select id="key_val1">
                 <option value="">None</option>
@@ -150,9 +170,14 @@
                 <option value="custom">Custom</option>
             </select>
             <input type="text" id="custom_key_val1" style="display: none;">
+            <label for="key_work1" style="margin-left: 10px;">Works:</label>
+            <select id="key_work1">
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+            </select>
         </div>
 
-        <div class="form-row">
+        <div class="form-row" id="key_values_row2">
             <label for="key_val2">Key Value 2:</label>
             <select id="key_val2">
                 <option value="">None</option>
@@ -167,9 +192,14 @@
                 <option value="custom">Custom</option>
             </select>
             <input type="text" id="custom_key_val2" style="display: none;">
+            <label for="key_work2" style="margin-left: 10px;">Works:</label>
+            <select id="key_work2">
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+            </select>
         </div>
 
-        <div class="form-row">
+        <div class="form-row" id="key_values_row3">
             <label for="key_val3">Key Value 3:</label>
             <select id="key_val3">
                 <option value="">None</option>
@@ -184,6 +214,11 @@
                 <option value="custom">Custom</option>
             </select>
             <input type="text" id="custom_key_val3" style="display: none;">
+            <label for="key_work3" style="margin-left: 10px;">Works:</label>
+            <select id="key_work3">
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+            </select>
         </div>
 
         <button type="submit">Generate Encoded URL</button>
@@ -192,128 +227,100 @@
     <div id="result"></div>
 
     <script>
-        const setupTypeSelect = document.getElementById('setup_type');
-        const inputTypeSelect = document.getElementById('input_type');
-        const keyVal1Select = document.getElementById('key_val1');
-        const keyVal2Select = document.getElementById('key_val2');
-        const keyVal3Select = document.getElementById('key_val3');
-        const customKeyVal1 = document.getElementById('custom_key_val1');
-        const customKeyVal2 = document.getElementById('custom_key_val2');
-        const customKeyVal3 = document.getElementById('custom_key_val3');
-        const errorMessageDiv = document.createElement('div');
-        errorMessageDiv.style.color = 'red';
-        document.getElementById('encoderForm').appendChild(errorMessageDiv);
-
-        function updateFormState() {
-            const isManual = setupTypeSelect.value === 'Manual';
-            inputTypeSelect.disabled = !isManual;
-            keyVal1Select.disabled = !isManual;
-            keyVal2Select.disabled = !isManual || keyVal1Select.value === "";
-            keyVal3Select.disabled = !isManual || keyVal2Select.value === "";
-
-            customKeyVal1.style.display = isManual && keyVal1Select.value === 'custom' ? 'block' : 'none';
-            customKeyVal2.style.display = isManual && keyVal2Select.value === 'custom' ? 'block' : 'none';
-            customKeyVal3.style.display = isManual && keyVal3Select.value === 'custom' ? 'block' : 'none';
-
-            customKeyVal1.disabled = !isManual || keyVal1Select.value !== 'custom';
-            customKeyVal2.disabled = !isManual || keyVal2Select.value !== 'custom';
-            customKeyVal3.disabled = !isManual || keyVal3Select.value !== 'custom';
-
-            errorMessageDiv.textContent = '';
-        }
-
-        function showErrorMessage(message) {
-            errorMessageDiv.textContent = message;
-        }
-
-        // Initial state setup
-        updateFormState();
-
-        // Update form state when setup type changes
-        setupTypeSelect.addEventListener('change', updateFormState);
-
-        function addKeyValueListener(select, customInput, previousSelect) {
-            select.addEventListener('change', function() {
-                if (previousSelect && previousSelect.value === "") {
-                    showErrorMessage(`Select Test key ${previousSelect.id.slice(-1)} first.`);
-                    this.value = "";
-                } else {
-                    updateFormState();
-                }
+        function utf8ToBase64URL(str) {
+            const utf8Bytes = new TextEncoder().encode(str);
+            let binaryString = '';
+            utf8Bytes.forEach(byte => {
+                binaryString += String.fromCharCode(byte);
             });
+            return btoa(binaryString)
+                .replace(/\+/g, '-')
+                .replace(/\//g, '_')
+                .replace(/=+$/, '');
         }
 
-        addKeyValueListener(keyVal1Select, customKeyVal1);
-        addKeyValueListener(keyVal2Select, customKeyVal2, keyVal1Select);
-        addKeyValueListener(keyVal3Select, customKeyVal3, keyVal2Select);
-
-        document.getElementById('encoderForm').addEventListener('submit', function(e) {
+        document.getElementById('encoderForm').addEventListener('submit', function (e) {
             e.preventDefault();
 
+            const envUrl = document.getElementById('env_select').value;
+            const language = document.getElementById('language').value;
             const ticket_id = document.getElementById('ticket_id').value;
-            const setup_type = setupTypeSelect.value;
-            const device_type = document.getElementById('device_type').value;
+            const setup_type = document.getElementById('setup_type').value;
+            const device_type = document.getElementById('device_type').value.split('|');
+            const deviceType = language === 'kr' ? device_type[1] : device_type[0];
+            const dtLocale = language === 'kr' ? device_type[1] : device_type[0];
             const device_brand = document.getElementById('device_brand').value;
 
-            // Start constructing the result object
             let resultObject = {
                 Ticket: ticket_id,
                 SetupType: setup_type,
-                DeviceType: device_type,
+                DeviceType: deviceType,
+                DtLocale: dtLocale,
                 Brand: device_brand
             };
 
-            // Add InputType and Keys only if SetupType is Manual
             if (setup_type === 'Manual') {
-                const input_type = inputTypeSelect.value;
+                resultObject.InputType = document.getElementById('input_type').value;
 
-                let keys = [];
-                function getKeyValue(select, customInput) {
-                    return select.value === 'custom' ? customInput.value : select.value;
-                }
-
-                const key1 = getKeyValue(keyVal1Select, customKeyVal1);
-                const key2 = getKeyValue(keyVal2Select, customKeyVal2);
-                const key3 = getKeyValue(keyVal3Select, customKeyVal3);
-
-                if (key1) keys.push(key1);
-                if (key2) keys.push(key2);
-                if (key3) keys.push(key3);
-
-                resultObject.InputType = input_type;
-                resultObject.Keys = keys;
+                resultObject.Keys = [
+                    {
+                        Key: document.getElementById('key_val1').value === 'custom' ? document.getElementById('custom_key_val1').value : document.getElementById('key_val1').value,
+                        KeyWorks: document.getElementById('key_work1').value
+                    },
+                    {
+                        Key: document.getElementById('key_val2').value === 'custom' ? document.getElementById('custom_key_val2').value : document.getElementById('key_val2').value,
+                        KeyWorks: document.getElementById('key_work2').value
+                    },
+                    {
+                        Key: document.getElementById('key_val3').value === 'custom' ? document.getElementById('custom_key_val3').value : document.getElementById('key_val3').value,
+                        KeyWorks: document.getElementById('key_work3').value
+                    }
+                ].filter(k => k.Key !== '');
+            } else if (setup_type === 'Auto') {
+                resultObject.InputType = 'HDMI';
             }
 
-            // JSON object as a string
             const resultJSON = JSON.stringify(resultObject);
-
-            // Base64 encode the JSON string
-            const base64EncodedJSON = btoa(resultJSON);
-
-            // Generate the final URL with Base64 encoded string
-            const finalURL = `https://virtualagent-uat.nevo.ai/feedback/solution/${base64EncodedJSON}`;
+            const base64URLEncodedJSON = utf8ToBase64URL(resultJSON);
+            const finalURL = `${envUrl}${base64URLEncodedJSON}`;
 
             document.getElementById('result').innerHTML = `
                 <h2>Results:</h2>
                 <div><strong>JSON Object:</strong></div>
                 <pre><code id="jsonResult">${resultJSON}</code></pre>
-                <div><strong>Base64 Encoded JSON:</strong></div>
-                <pre><code>${base64EncodedJSON}</code></pre>
+                <div><strong>Base64URL Encoded JSON:</strong></div>
+                <pre><code>${base64URLEncodedJSON}</code></pre>
                 <button class="copy-button" onclick="copyToClipboard('${finalURL}')">Copy URL</button>
             `;
         });
 
-        function copyToClipboard(url) {
-            const tempInput = document.createElement('textarea');
-            tempInput.value = url;
-            document.body.appendChild(tempInput);
-            tempInput.select();
-            document.execCommand('copy');
-            document.body.removeChild(tempInput);
+        document.getElementById('setup_type').addEventListener('change', function () {
+            const setupType = document.getElementById('setup_type').value;
+            if (setupType === 'Auto') {
+                document.getElementById('input_type_row').style.display = 'none';
+                document.getElementById('key_values_row').style.display = 'none';
+                document.getElementById('key_values_row2').style.display = 'none';
+                document.getElementById('key_values_row3').style.display = 'none';
+            } else {
+                document.getElementById('input_type_row').style.display = 'flex';
+                document.getElementById('key_values_row').style.display = 'flex';
+                document.getElementById('key_values_row2').style.display = 'flex';
+                document.getElementById('key_values_row3').style.display = 'flex';
+            }
+        });
 
-            // Create the message element
+        async function copyToClipboard(url) {
+            try {
+                await navigator.clipboard.writeText(url);
+                displayMessage('URL copied successfully');
+            } catch (err) {
+                displayMessage('Failed to copy URL');
+            }
+        }
+
+        function displayMessage(message) {
             const messageDiv = document.createElement('div');
-            messageDiv.textContent = 'URL copied';
+            messageDiv.textContent = message;
             messageDiv.style.position = 'fixed';
             messageDiv.style.bottom = '20px';
             messageDiv.style.left = '50%';
@@ -326,12 +333,12 @@
             messageDiv.style.zIndex = '1000';
             document.body.appendChild(messageDiv);
 
-            // Remove the message after 5 seconds
             setTimeout(() => {
                 document.body.removeChild(messageDiv);
             }, 3500);
         }
-
     </script>
+
 </body>
+
 </html>

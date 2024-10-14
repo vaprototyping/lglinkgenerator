@@ -95,6 +95,20 @@
         .copy-button:hover {
             background-color: #a10c14;
         }
+
+        .add-key-button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 14px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
     </style>
 </head>
 
@@ -155,74 +169,76 @@
             </select>
         </div>
 
-        <div class="form-row" id="key_values_row">
-            <label for="key_val1">Key Value 1:</label>
-            <select id="key_val1">
-                <option value="">None</option>
-                <option value="CH+">CH+</option>
-                <option value="CH-">CH-</option>
-                <option value="Menu">Menu</option>
-                <option value="Vol+">Vol+</option>
-                <option value="Vol-">Vol-</option>
-                <option value="Mute">Mute</option>
-                <option value="Display">Display</option>
-                <option value="Info">Info</option>
-                <option value="custom">Custom</option>
-            </select>
-            <input type="text" id="custom_key_val1" style="display: none;">
-            <label for="key_work1" style="margin-left: 10px;">Works:</label>
-            <select id="key_work1">
-                <option value="Yes">Yes</option>
-                <option value="No">No</option>
-            </select>
-        </div>
+        <div id="key-values-container">
+                  <div class="form-row" id="key_values_row">
+                    <label for="key_val1">Key Value 1:</label>
+                    <select id="key_val1">
+                      <option value="">None</option>
+                      <option value="CH+">CH+</option>
+                      <option value="CH-">CH-</option>
+                      <option value="Menu">Menu</option>
+                      <option value="Vol+">Vol+</option>
+                      <option value="Vol-">Vol-</option>
+                      <option value="Mute">Mute</option>
+                      <option value="Display">Display</option>
+                      <option value="Info">Info</option>
+                      <option value="custom">Custom</option>
+                    </select>
+                    <input type="text" id="custom_key_val1" style="display: none;">
+                    <label for="key_work1" style="margin-left: 10px;">Works:</label>
+                    <select id="key_work1">
+                      <option value="Yes">Yes</option>
+                      <option value="No">No</option>
+                    </select>
+                  </div>
 
-        <div class="form-row" id="key_values_row2">
-            <label for="key_val2">Key Value 2:</label>
-            <select id="key_val2">
-                <option value="">None</option>
-                <option value="CH+">CH+</option>
-                <option value="CH-">CH-</option>
-                <option value="Menu">Menu</option>
-                <option value="Vol+">Vol+</option>
-                <option value="Vol-">Vol-</option>
-                <option value="Mute">Mute</option>
-                <option value="Display">Display</option>
-                <option value="Info">Info</option>
-                <option value="custom">Custom</option>
-            </select>
-            <input type="text" id="custom_key_val2" style="display: none;">
-            <label for="key_work2" style="margin-left: 10px;">Works:</label>
-            <select id="key_work2">
-                <option value="Yes">Yes</option>
-                <option value="No">No</option>
-            </select>
-        </div>
+                <div class="form-row" id="key_values_row2">
+                    <label for="key_val2">Key Value 2:</label>
+                    <select id="key_val2">
+                        <option value="">None</option>
+                        <option value="CH+">CH+</option>
+                        <option value="CH-">CH-</option>
+                        <option value="Menu">Menu</option>
+                        <option value="Vol+">Vol+</option>
+                        <option value="Vol-">Vol-</option>
+                        <option value="Mute">Mute</option>
+                        <option value="Display">Display</option>
+                        <option value="Info">Info</option>
+                        <option value="custom">Custom</option>
+                    </select>
+                    <input type="text" id="custom_key_val2" style="display: none;">
+                    <label for="key_work2" style="margin-left: 10px;">Works:</label>
+                    <select id="key_work2">
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                    </select>
+                </div>
 
-        <div class="form-row" id="key_values_row3">
-            <label for="key_val3">Key Value 3:</label>
-            <select id="key_val3">
-                <option value="">None</option>
-                <option value="CH+">CH+</option>
-                <option value="CH-">CH-</option>
-                <option value="Menu">Menu</option>
-                <option value="Vol+">Vol+</option>
-                <option value="Vol-">Vol-</option>
-                <option value="Mute">Mute</option>
-                <option value="Display">Display</option>
-                <option value="Info">Info</option>
-                <option value="custom">Custom</option>
-            </select>
-            <input type="text" id="custom_key_val3" style="display: none;">
-            <label for="key_work3" style="margin-left: 10px;">Works:</label>
-            <select id="key_work3">
-                <option value="Yes">Yes</option>
-                <option value="No">No</option>
-            </select>
-        </div>
+                <div class="form-row" id="key_values_row3">
+                    <label for="key_val3">Key Value 3:</label>
+                    <select id="key_val3">
+                        <option value="">None</option>
+                        <option value="CH+">CH+</option>
+                        <option value="CH-">CH-</option>
+                        <option value="Menu">Menu</option>
+                        <option value="Vol+">Vol+</option>
+                        <option value="Vol-">Vol-</option>
+                        <option value="Mute">Mute</option>
+                        <option value="Display">Display</option>
+                        <option value="Info">Info</option>
+                        <option value="custom">Custom</option>
+                    </select>
+                    <input type="text" id="custom_key_val3" style="display: none;">
+                    <label for="key_work3" style="margin-left: 10px;">Works:</label>
+                    <select id="key_work3">
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                    </select>
+                </div>
+                <button type="button" id="add-key-button" class="add-key-button">+ Add Key</button>
 
-        <button type="submit">Generate Encoded URL</button>
-    </form>
+           <button type="submit">Generate Encoded URL</button>
+       </form>
 
     <div id="result"></div>
 
@@ -238,6 +254,67 @@
                 .replace(/\//g, '_')
                 .replace(/=+$/, '');
         }
+
+        let keyCount = 3;
+
+        function setupCustomKeyListener(keyNum) {
+            const selectElement = document.getElementById(`key_val${keyNum}`);
+            const customInputElement = document.getElementById(`custom_key_val${keyNum}`);
+
+            selectElement.addEventListener('change', function() {
+                if (this.value === 'custom') {
+                    customInputElement.style.display = 'inline-block';
+                } else {
+                    customInputElement.style.display = 'none';
+                }
+            });
+        }
+
+        // Setup listeners for initial key values
+        for (let i = 1; i <= 3; i++) {
+            setupCustomKeyListener(i);
+        }
+
+        document.getElementById('add-key-button').addEventListener('click', function() {
+            if (keyCount < 8) {
+                keyCount++;
+                const newKeyRow = document.createElement('div');
+                newKeyRow.className = 'form-row';
+                newKeyRow.id = `key_values_row${keyCount}`;
+                newKeyRow.innerHTML = `
+                    <label for="key_val${keyCount}">Key Value ${keyCount}:</label>
+                    <select id="key_val${keyCount}">
+                        <option value="">None</option>
+                        <option value="CH+">CH+</option>
+                        <option value="CH-">CH-</option>
+                        <option value="Menu">Menu</option>
+                        <option value="Vol+">Vol+</option>
+                        <option value="Vol-">Vol-</option>
+                        <option value="Mute">Mute</option>
+                        <option value="Display">Display</option>
+                        <option value="Info">Info</option>
+                        <option value="custom">Custom</option>
+                    </select>
+                    <input type="text" id="custom_key_val${keyCount}" style="display: none;">
+                    <label for="key_work${keyCount}" style="margin-left: 10px;">Works:</label>
+                    <select id="key_work${keyCount}">
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                    </select>
+                `;
+
+                // Insert the new row after the last key_values_row
+                const lastKeyRow = document.getElementById(`key_values_row${keyCount - 1}`);
+                lastKeyRow.parentNode.insertBefore(newKeyRow, lastKeyRow.nextSibling);
+
+                // Setup listener for the new key value
+                setupCustomKeyListener(keyCount);
+
+                if (keyCount === 8) {
+                    document.getElementById('add-key-button').style.display = 'none';
+                }
+            }
+        });
 
         document.getElementById('encoderForm').addEventListener('submit', function (e) {
             e.preventDefault();
@@ -262,20 +339,18 @@
             if (setup_type === 'Manual') {
                 resultObject.InputType = document.getElementById('input_type').value;
 
-                resultObject.Keys = [
-                    {
-                        Key: document.getElementById('key_val1').value === 'custom' ? document.getElementById('custom_key_val1').value : document.getElementById('key_val1').value,
-                        KeyWorks: document.getElementById('key_work1').value
-                    },
-                    {
-                        Key: document.getElementById('key_val2').value === 'custom' ? document.getElementById('custom_key_val2').value : document.getElementById('key_val2').value,
-                        KeyWorks: document.getElementById('key_work2').value
-                    },
-                    {
-                        Key: document.getElementById('key_val3').value === 'custom' ? document.getElementById('custom_key_val3').value : document.getElementById('key_val3').value,
-                        KeyWorks: document.getElementById('key_work3').value
+                resultObject.Keys = [];
+                for (let i = 1; i <= keyCount; i++) {
+                    const keyValElement = document.getElementById(`key_val${i}`);
+                    const keyVal = keyValElement.value;
+                    const keyWorks = document.getElementById(`key_work${i}`).value;
+                    if (keyVal !== '') {
+                        resultObject.Keys.push({
+                            Key: keyVal === 'custom' ? document.getElementById(`custom_key_val${i}`).value : keyVal,
+                            KeyWorks: keyWorks
+                        });
                     }
-                ].filter(k => k.Key !== '');
+                }
             } else if (setup_type === 'Auto') {
                 resultObject.InputType = 'HDMI';
             }
@@ -298,14 +373,12 @@
             const setupType = document.getElementById('setup_type').value;
             if (setupType === 'Auto') {
                 document.getElementById('input_type_row').style.display = 'none';
-                document.getElementById('key_values_row').style.display = 'none';
-                document.getElementById('key_values_row2').style.display = 'none';
-                document.getElementById('key_values_row3').style.display = 'none';
+                document.getElementById('key-values-container').style.display = 'none';
+                document.getElementById('add-key-button').style.display = 'none';
             } else {
                 document.getElementById('input_type_row').style.display = 'flex';
-                document.getElementById('key_values_row').style.display = 'flex';
-                document.getElementById('key_values_row2').style.display = 'flex';
-                document.getElementById('key_values_row3').style.display = 'flex';
+                document.getElementById('key-values-container').style.display = 'block';
+                document.getElementById('add-key-button').style.display = 'inline-block';
             }
         });
 

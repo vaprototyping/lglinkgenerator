@@ -145,9 +145,44 @@
             </select>
         </div>
 
+    <script>
+        function updateSetupOptions() {
+            const deviceType = document.getElementById("device_type").value.split("|")[0];
+            const setupTypeSelect = document.getElementById("setup_type");
+            const deviceBrandInput = document.getElementById("device_brand");
+            const deviceBrandConsole = document.getElementById("device_brand_console");
+            const customConsoleInput = document.getElementById("custom_console_brand");
+            
+            if (deviceType === "Game Console") {
+                setupTypeSelect.innerHTML = '<option value="Auto">Auto</option>';
+                setupTypeSelect.value = "Auto";
+                toggleKeyValuesSection(false);
+                
+                // Switch to console dropdown
+                deviceBrandInput.style.display = "none";
+                deviceBrandConsole.style.display = "block";
+                customConsoleInput.style.display = deviceBrandConsole.value === 'custom' ? 'block' : 'none';
+                deviceBrandInput.required = false;
+                deviceBrandConsole.required = true;
+            } else {
+                setupTypeSelect.innerHTML = '<option value="Auto">Auto</option><option value="Manual">Manual</option>';
+                
+                // Switch back to text input
+                deviceBrandInput.style.display = "block";
+                deviceBrandConsole.style.display = "none";
+                customConsoleInput.style.display = "none";
+                deviceBrandInput.required = true;
+                deviceBrandConsole.required = false;
+                customConsoleInput.required = false;
+            }
+        }
+    </script>
+
+		
+
         <div class="form-row">
             <label for="device_type">Device Type:</label>
-            <select id="device_type">
+            <select id="device_type" onchange="updateSetupOptions()">
                 <option value="Set-Top Box|셋톱박스">Set-Top Box</option>
                 <option value="Blu-ray/DVD Player|블루레이/DVD 플레이어">Blu-ray/DVD Player</option>
                 <option value="Home Theater|홈시어터">Home Theater</option>
@@ -160,6 +195,17 @@
         <div class="form-row">
             <label for="device_brand">Device Brand:</label>
             <input type="text" id="device_brand" required>
+            <select id="device_brand_console" style="display: none;" onchange="toggleCustomConsole()">
+                <option value="XBOX">XBOX</option>
+                <option value="XBOX ONE">XBOX ONE</option>
+                <option value="XBOX 360">XBOX 360</option>
+                <option value="PS4">PS4</option>
+                <option value="PS5">PS5</option>
+                <option value="Nintendo Switch">Nintendo Switch</option>
+                <option value="SHIELD">SHIELD</option>
+                <option value="custom">Custom...</option>
+            </select>
+            <input type="text" id="custom_console_brand" style="display: none;" placeholder="Enter custom console brand">
         </div>
 
         <div class="form-row" id="input_type_row">
@@ -353,7 +399,18 @@
             const device_type = document.getElementById('device_type').value.split('|');
             const deviceType = device_type[0]; // Always use English version for DeviceType
             const dtLocale = language === 'kr' ? device_type[1] : device_type[0]; // Use Korean version for DtLocale if language is Korean
-            const device_brand = document.getElementById('device_brand').value;
+            let device_brand;
+            
+            if (deviceType === "Game Console") {
+                const consoleSelect = document.getElementById('device_brand_console');
+                if (consoleSelect.value === 'custom') {
+                    device_brand = document.getElementById('custom_console_brand').value;
+                } else {
+                    device_brand = consoleSelect.value;
+                }
+            } else {
+                device_brand = document.getElementById('device_brand').value;
+            }
 
             let resultObject = {
                 Ticket: ticket_id,
@@ -425,6 +482,21 @@
             setTimeout(() => {
                 document.body.removeChild(messageDiv);
             }, 3500);
+        }
+
+        function toggleCustomConsole() {
+            const consoleSelect = document.getElementById('device_brand_console');
+            const customInput = document.getElementById('custom_console_brand');
+            
+            if (consoleSelect.value === 'custom') {
+                customInput.style.display = 'block';
+                customInput.required = true;
+                consoleSelect.required = false;
+            } else {
+                customInput.style.display = 'none';
+                customInput.required = false;
+                consoleSelect.required = true;
+            }
         }
     </script>
 </body>

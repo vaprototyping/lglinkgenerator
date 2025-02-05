@@ -109,21 +109,47 @@
             cursor: pointer;
             border-radius: 4px;
         }
+
+        .environment-button {
+            position: absolute;
+            top: 20px;
+            right: calc(50% - 300px);
+            padding: 8px 16px;
+            background-color: #C10C16;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            width: auto;
+        }
+
+        @media (max-width: 640px) {
+            .environment-button {
+                right: 20px;
+            }
+        }
+
+        .environment-button:hover {
+            background-color: #a10c14;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-top: -15px;
+            margin-bottom: 25px;
+            font-size: 16px;
+        }
     </style>
 </head>
 
 <body>
+    <button class="environment-button" onclick="switchEnvironment()">Go to Staging</button>
     <h1>Parameter Encoder</h1>
+    <div class="subtitle">Production</div>
 
     <form id="encoderForm">
-        <div class="form-row">
-            <label for="env_select">Environment:</label>
-            <select id="env_select">
-                <option value="https://virtualagent.nevo.ai/feedback/solution/">Production</option>
-                <option value="https://virtualagent-uat.nevo.ai/feedback/solution/">Staging</option>
-            </select>
-        </div>
-
         <div class="form-row">
             <label for="language">Language:</label>
             <select id="language">
@@ -389,10 +415,28 @@
             }
         });
 
+        function switchEnvironment() {
+            // Save current form state to localStorage
+            const formData = {
+                language: document.getElementById('language').value,
+                ticket_id: document.getElementById('ticket_id').value,
+                setup_type: document.getElementById('setup_type').value,
+                device_type: document.getElementById('device_type').value,
+                device_brand: document.getElementById('device_brand').value,
+                device_brand_console: document.getElementById('device_brand_console').value,
+                custom_console_brand: document.getElementById('custom_console_brand').value,
+                input_type: document.getElementById('input_type').value
+            };
+            localStorage.setItem('formData', JSON.stringify(formData));
+            
+            // Redirect to the staging version
+            window.location.href = 'index-workfile-staging.html';
+        }
+
         document.getElementById('encoderForm').addEventListener('submit', function (e) {
             e.preventDefault();
 
-            const envUrl = document.getElementById('env_select').value;
+            const envUrl = "https://virtualagent.nevo.ai/feedback/solution/";
             const language = document.getElementById('language').value;
             const ticket_id = document.getElementById('ticket_id').value;
             const setup_type = document.getElementById('setup_type').value;

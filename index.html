@@ -430,7 +430,7 @@
             localStorage.setItem('formData', JSON.stringify(formData));
             
             // Redirect to the staging version
-            window.location.href = 'index-workfile-staging.html';
+            window.location.href = '/lglinkgenerator/index-staging.html?v=' + new Date().getTime();
         }
 
         document.getElementById('encoderForm').addEventListener('submit', function (e) {
